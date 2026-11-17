@@ -56,8 +56,12 @@ Arquivo: `.github/workflows/ci-cd.yml`. Executa **a cada push**:
 - **Actions fixadas por SHA:** o próprio Semgrep apontou o risco de supply chain de tags mutáveis, que foi corrigido.
 
 ### Execução barrada e corrigida
-1. **Barrada** (commit `faaba7d`): o Trivy encontrou **CVE-2026-78661 (HIGH)** em `golang.org/x/net v0.60.0`, embutido no binário oficial do Caddy 2.11.9. O job *Build + Trivy (web)* falhou e o **deploy não foi executado**.
-2. **Corrigida** (commit `7bdcaf0`): a imagem passou a recompilar o Caddy com `xcaddy` usando `golang.org/x/net v0.62.0`. Todos os jobs ficaram verdes, e o deploy e o smoke test passaram.
+| Commit | O que aconteceu |
+|---|---|
+| `faaba7d` | ❌ **Barrada:** o Trivy encontrou **CVE-2026-78661 (HIGH)** em `golang.org/x/net v0.60.0`, embutido no binário oficial do Caddy 2.11.9. O job *Build + Trivy (web)* falhou e o **deploy não foi executado**. |
+| `7bdcaf0` | ✅ Correção do CVE: o Caddy passou a ser recompilado com `xcaddy` e `golang.org/x/net v0.62.0`, e todos os scans e builds ficaram verdes. ❌ O deploy falhou no login OIDC (`AADSTS700213`): o GitHub agora emite o *subject* com IDs imutáveis (`repo:owner@id/repo@id`). |
+| `b0bd0d8` | ✅ **Corrigida:** credenciais federadas ajustadas no Terraform. **Pipeline 100% verde**, com deploy e smoke test (`Versão b0bd0d8 no ar`). |
+| `00fe151` | ✅ Endurecimento LGPD: o logger padrão do Caddy deixou de registrar IP de bots com host desconhecido. |
 
 > 📷 Prints 08 a 14
 
@@ -73,7 +77,8 @@ Detalhes: [docs/observabilidade.md](observabilidade.md).
 - **Diagrama da arquitetura:** [docs/arquitetura.md](arquitetura.md)
 - **Responsabilidade compartilhada:** [docs/responsabilidade-compartilhada.md](responsabilidade-compartilhada.md)
 - **Onde ficam os dados pessoais (LGPD):** [docs/lgpd.md](lgpd.md). O MVP não coleta dado pessoal, os logs saem sem IP e os segredos ficam só no `.env` (chmod 600) e no state privado.
-- **Estimativa de custo:** [docs/custos-finops.md](custos-finops.md). **≈ US$ 13,64/mês** (≈ US$ 4,50 no período da GS), com **trava automática de US$ 20** (budget → runbook que desaloca a VM, testada).
+- **Estimativa de custo:** [docs/custos-finops.md](custos-finops.md). **≈ US$ 13,64/mês** (≈ US$ 4,50 no período da GS), com **trava automática de US$ 20** (budget → runbook que desaloca a VM).
+  **Teste da trava (17/11):** o webhook foi chamado, o job do runbook foi criado e a VM passou de `running` para `deallocated` em cerca de 1 min. Ao religar (`az vm start`), o site voltou sozinho (healthz 200).
 - **README reproduzível:** passo a passo local, Terraform, pipeline e observabilidade.
 
 > 📷 Prints 19 a 23
