@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Passo Livre — mapa de obstáculos em calçadas de São Paulo</title>
+  <meta name="description" content="Mapa colaborativo de obstáculos em calçadas e pontos de ônibus para pessoas com deficiência e idosos em São Paulo.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♿</text></svg>">
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="/"><span aria-hidden="true">♿</span> Passo Livre</a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="/">Mapa</a></li>
+          <li><a href="/relatar.html">Relatar obstáculo</a></li>
+          <li><a href="/distritos.html">Distritos</a></li>
+          <li><a href="/como-funciona.html">Como funciona</a></li>
+          <li><a href="/privacidade.html">Privacidade</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <h1>Obstáculos nas calçadas de São Paulo</h1>
+    <p class="sub">Relatos de quem anda pela cidade: buracos, carros na calçada, degraus sem rampa e pontos de ônibus inacessíveis.</p>
+    <div id="avisos" aria-live="polite"></div>
+
+    <section aria-labelledby="titulo-indicadores">
+      <h2 id="titulo-indicadores" class="sr">Indicadores</h2>
+      <div class="indicadores" id="indicadores" aria-live="polite">
+        <div class="indicador"><strong id="ind-total">–</strong><span>relatos</span></div>
+        <div class="indicador"><strong id="ind-abertos">–</strong><span>aguardando solução</span></div>
+        <div class="indicador"><strong id="ind-resolvidos">–</strong><span>resolvidos</span></div>
+        <div class="indicador"><strong id="ind-confirmacoes">–</strong><span>confirmações de vizinhos</span></div>
+      </div>
+    </section>
+
+    <form class="filtros" id="filtros" aria-label="Filtrar relatos">
+      <div>
+        <label for="f-tipo">Tipo de obstáculo</label>
+        <select id="f-tipo" name="tipo"><option value="">Todos</option></select>
+      </div>
+      <div>
+        <label for="f-status">Situação</label>
+        <select id="f-status" name="status">
+          <option value="">Todas</option>
+          <option value="novo">Novo</option>
+          <option value="em_analise">Em análise</option>
+          <option value="encaminhado">Encaminhado à prefeitura</option>
+          <option value="resolvido">Resolvido</option>
+          <option value="duplicado">Duplicado</option>
+        </select>
+      </div>
+      <a class="botao" href="/relatar.html">+ Relatar obstáculo</a>
+    </form>
+
+    <div class="layout-mapa">
+      <section aria-labelledby="titulo-mapa">
+        <h2 id="titulo-mapa" class="sr">Mapa</h2>
+        <div id="mapa" class="mapa" role="region" aria-label="Mapa dos relatos. A mesma informação está na lista ao lado."></div>
+      </section>
+      <section aria-labelledby="titulo-lista">
+        <h2 id="titulo-lista">Lista de relatos <span class="meta" id="contagem"></span></h2>
+        <ul class="lista" id="lista"></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="rodape">
+    Passo Livre · MVP da Global Solution FIAP 2026 · Não coletamos nome, e-mail, CPF nem IP (<a href="/privacidade.html">privacidade</a>) ·
+    versão <span id="versao">–</span> · mapa © colaboradores do OpenStreetMap
+  </footer>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/mapa.js"></script>
+</body>
+</html>

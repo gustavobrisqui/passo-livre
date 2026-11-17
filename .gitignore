@@ -1,0 +1,33 @@
+# Segredos e configuração local — NUNCA versionar
+.env
+.env.*
+!.env.example
+observability/secrets/
+*.pem
+*.key
+
+# Terraform: state e variáveis ficam fora do repositório
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+*.tfplan
+crash.log
+backend.hcl
+.terraform.lock.hcl.bak
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# SO / editores
+.DS_Store
+.idea/
+.vscode/
+
+# Material da FIAP (não redistribuir) e relatórios gerados
+Desafio-FIAP-GS-CitizenTech*.pdf
+docs/*.pdf

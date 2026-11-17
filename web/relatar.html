@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatar obstáculo — Passo Livre</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♿</text></svg>">
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="/"><span aria-hidden="true">♿</span> Passo Livre</a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="/">Mapa</a></li>
+          <li><a href="/relatar.html">Relatar obstáculo</a></li>
+          <li><a href="/distritos.html">Distritos</a></li>
+          <li><a href="/como-funciona.html">Como funciona</a></li>
+          <li><a href="/privacidade.html">Privacidade</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <h1>Relatar um obstáculo</h1>
+    <p class="sub">Leva menos de um minuto. Não pedimos seu nome, e-mail nem telefone.</p>
+    <div id="avisos" aria-live="assertive"></div>
+
+    <form id="form-relato" novalidate>
+      <fieldset>
+        <legend>1. O que está atrapalhando a passagem?</legend>
+        <div class="opcoes" id="opcoes-tipo"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Onde fica?</legend>
+        <p class="meta" id="ajuda-local">
+          Toque no mapa no ponto exato, use sua localização, ou mova o mapa com as setas do teclado
+          até o círculo laranja ficar sobre o local e use “Marcar o centro do mapa”.
+        </p>
+        <div class="acoes espaco-abaixo">
+          <button type="button" id="btn-gps">📍 Usar minha localização</button>
+          <button type="button" id="btn-centro" class="secundario">⊕ Marcar o centro do mapa</button>
+        </div>
+        <div id="mapa" class="mapa mapa-pequeno mira" role="region" aria-label="Mapa para escolher o local" aria-describedby="ajuda-local"></div>
+        <p id="local-escolhido" aria-live="polite" class="meta">Nenhum local escolhido ainda.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Quer descrever? (opcional)</legend>
+        <label for="descricao">Descrição curta</label>
+        <textarea id="descricao" name="descricao" maxlength="280" aria-describedby="contador dica-desc"></textarea>
+        <p class="meta"><span id="contador">0</span>/280 caracteres. <span id="dica-desc">Ex.: “degrau de 20 cm na esquina, sem rampa”. Não escreva nomes, placas ou telefones.</span></p>
+      </fieldset>
+
+      <button type="submit" id="btn-enviar">Enviar relato</button>
+    </form>
+  </main>
+
+  <footer class="rodape">
+    Passo Livre · Sem conexão? Seu relato fica guardado neste aparelho e é enviado quando a internet voltar.
+  </footer>
+
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/relatar.js"></script>
+</body>
+</html>

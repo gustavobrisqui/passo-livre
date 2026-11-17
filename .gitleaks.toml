@@ -1,0 +1,12 @@
+title = "Passo Livre — Gitleaks"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Arquivos de exemplo sem segredos reais e bibliotecas de terceiros"
+paths = [
+  '''\.env\.example$''',
+  '''terraform\.tfvars\.example$''',
+  '''web/vendor/''',
+]

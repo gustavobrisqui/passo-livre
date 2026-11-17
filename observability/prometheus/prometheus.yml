@@ -1,0 +1,56 @@
+# Prometheus local coletando o MVP local e o publicado na Azure (o enunciado permite rodar local).
+# As senhas ficam em observability/secrets/ (ignorado pelo Git):
+#   metrics_password        -> stack local (gerada por scripts/gerar-env.sh)
+#   metrics_password_azure  -> produção (terraform output -raw metrics_password)
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alertas.yml
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ["alertmanager:9093"]
+
+scrape_configs:
+  # ---------------- produção (Azure) ----------------
+  - job_name: web
+    scheme: https
+    metrics_path: /metrics/caddy
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/secrets/metrics_password_azure
+    static_configs:
+      - targets: ["passolivre-gs.eastus2.cloudapp.azure.com"]
+        labels: { alvo: azure }
+
+  - job_name: api
+    scheme: https
+    metrics_path: /metrics/api
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/secrets/metrics_password_azure
+    static_configs:
+      - targets: ["passolivre-gs.eastus2.cloudapp.azure.com"]
+        labels: { alvo: azure }
+
+  # ---------------- local (docker compose na máquina) ----------------
+  - job_name: web-local
+    metrics_path: /metrics/caddy
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/secrets/metrics_password
+    static_configs:
+      - targets: ["host.docker.internal:8080"]
+        labels: { alvo: local }
+
+  - job_name: api-local
+    metrics_path: /metrics/api
+    basic_auth:
+      username: prometheus
+      password_file: /etc/prometheus/secrets/metrics_password
+    static_configs:
+      - targets: ["host.docker.internal:8080"]
+        labels: { alvo: local }

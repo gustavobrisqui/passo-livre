@@ -1,0 +1,8 @@
+# Copie para terraform.tfvars (ignorado pelo Git) e ajuste.
+subscription_id   = "00000000-0000-0000-0000-000000000000"
+location          = "eastus2"
+dns_label         = "passolivre-gs"
+vm_size           = "Standard_B1s"
+budget_mensal_usd = 20
+budget_emails     = [] # opcional: o Owner da assinatura já recebe os avisos
+github_repo       = "gustavobrisqui/passo-livre"

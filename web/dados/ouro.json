@@ -1,0 +1,26 @@
+{
+  "metadados": {
+    "tabela_origem": "workspace.gs.ouro_fato_ocorrencias (agregada por dim_distrito)",
+    "fonte": "EXEMPLO SIMULADO — será substituído pelo export da camada Ouro do componente Big Data",
+    "contrato": "docs/contratos.md#ouro-json",
+    "atualizado_em": "2026-11-17",
+    "dados_pessoais": "nenhum (apenas agregados por distrito)"
+  },
+  "distritos": [
+    {"distrito": "Sé", "subprefeitura": "Sé", "total_ocorrencias": 142, "resolvidas": 51, "tempo_medio_resolucao_dias": 38, "tipo_mais_comum": "calcada_estreita", "pontos_onibus_afetados": 17},
+    {"distrito": "República", "subprefeitura": "Sé", "total_ocorrencias": 128, "resolvidas": 40, "tempo_medio_resolucao_dias": 41, "tipo_mais_comum": "entulho", "pontos_onibus_afetados": 12},
+    {"distrito": "Bela Vista", "subprefeitura": "Sé", "total_ocorrencias": 97, "resolvidas": 39, "tempo_medio_resolucao_dias": 33, "tipo_mais_comum": "buraco", "pontos_onibus_afetados": 9},
+    {"distrito": "Consolação", "subprefeitura": "Sé", "total_ocorrencias": 88, "resolvidas": 37, "tempo_medio_resolucao_dias": 29, "tipo_mais_comum": "carro_na_calcada", "pontos_onibus_afetados": 8},
+    {"distrito": "Pinheiros", "subprefeitura": "Pinheiros", "total_ocorrencias": 76, "resolvidas": 35, "tempo_medio_resolucao_dias": 26, "tipo_mais_comum": "arvore_raiz", "pontos_onibus_afetados": 6},
+    {"distrito": "Vila Mariana", "subprefeitura": "Vila Mariana", "total_ocorrencias": 71, "resolvidas": 30, "tempo_medio_resolucao_dias": 31, "tipo_mais_comum": "arvore_raiz", "pontos_onibus_afetados": 7},
+    {"distrito": "Santana", "subprefeitura": "Santana/Tucuruvi", "total_ocorrencias": 69, "resolvidas": 22, "tempo_medio_resolucao_dias": 44, "tipo_mais_comum": "degrau_sem_rampa", "pontos_onibus_afetados": 10},
+    {"distrito": "Itaquera", "subprefeitura": "Itaquera", "total_ocorrencias": 112, "resolvidas": 24, "tempo_medio_resolucao_dias": 57, "tipo_mais_comum": "ponto_onibus_inacessivel", "pontos_onibus_afetados": 23},
+    {"distrito": "Capão Redondo", "subprefeitura": "Campo Limpo", "total_ocorrencias": 121, "resolvidas": 19, "tempo_medio_resolucao_dias": 63, "tipo_mais_comum": "ponto_onibus_inacessivel", "pontos_onibus_afetados": 27},
+    {"distrito": "Brasilândia", "subprefeitura": "Freguesia/Brasilândia", "total_ocorrencias": 104, "resolvidas": 17, "tempo_medio_resolucao_dias": 61, "tipo_mais_comum": "buraco", "pontos_onibus_afetados": 21},
+    {"distrito": "Lapa", "subprefeitura": "Lapa", "total_ocorrencias": 64, "resolvidas": 27, "tempo_medio_resolucao_dias": 35, "tipo_mais_comum": "carro_na_calcada", "pontos_onibus_afetados": 6},
+    {"distrito": "Mooca", "subprefeitura": "Mooca", "total_ocorrencias": 73, "resolvidas": 28, "tempo_medio_resolucao_dias": 37, "tipo_mais_comum": "buraco", "pontos_onibus_afetados": 8},
+    {"distrito": "Santo Amaro", "subprefeitura": "Santo Amaro", "total_ocorrencias": 81, "resolvidas": 30, "tempo_medio_resolucao_dias": 39, "tipo_mais_comum": "carro_na_calcada", "pontos_onibus_afetados": 11},
+    {"distrito": "Penha", "subprefeitura": "Penha", "total_ocorrencias": 77, "resolvidas": 21, "tempo_medio_resolucao_dias": 49, "tipo_mais_comum": "degrau_sem_rampa", "pontos_onibus_afetados": 13},
+    {"distrito": "Butantã", "subprefeitura": "Butantã", "total_ocorrencias": 58, "resolvidas": 25, "tempo_medio_resolucao_dias": 34, "tipo_mais_comum": "iluminacao", "pontos_onibus_afetados": 7}
+  ]
+}

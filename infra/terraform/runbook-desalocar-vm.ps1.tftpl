@@ -1,0 +1,20 @@
+param(
+    [Parameter(Mandatory = $false)]
+    [object] $WebhookData
+)
+
+# Trava de gasto do Passo Livre: desaloca a VM usando a identidade gerenciada da Automation Account.
+# Não depende de módulos Az: chama a API REST da Azure diretamente.
+$ErrorActionPreference = "Stop"
+$vmId = "${vm_id}"
+
+Write-Output "Trava de gasto acionada. Desalocando $vmId"
+
+$tokenUrl = "$($env:IDENTITY_ENDPOINT)?resource=https://management.azure.com/&api-version=2019-08-01"
+$tokenHeaders = @{ "X-IDENTITY-HEADER" = $env:IDENTITY_HEADER; "Metadata" = "True" }
+$token = (Invoke-RestMethod -Method Get -Uri $tokenUrl -Headers $tokenHeaders).access_token
+
+$uri = "https://management.azure.com$vmId/deallocate?api-version=2024-07-01"
+Invoke-RestMethod -Method Post -Uri $uri -Headers @{ Authorization = "Bearer $token" } | Out-Null
+
+Write-Output "Pedido de desalocação enviado com sucesso."

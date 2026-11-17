@@ -1,0 +1,57 @@
+#cloud-config
+# Prepara a VM do Passo Livre: Docker, swap, .env com segredos (chmod 600) e serviço systemd.
+package_update: true
+package_upgrade: true
+packages:
+  - docker.io
+  - docker-compose-v2
+  - unattended-upgrades
+
+write_files:
+  - path: /opt/passolivre/.env
+    owner: root:root
+    permissions: "0600"
+    content: |
+      SITE_ADDRESS=${fqdn}
+      HTTP_PORT=80
+      HTTPS_PORT=443
+      IMAGE_TAG=${image_tag}
+      RPA_TOKEN=${rpa_token}
+      ROBO_TOKEN=${robo_token}
+      METRICS_USER=prometheus
+      METRICS_HASH='${metrics_hash}'
+      SEED_DEMO=true
+      RATE_LIMIT_POR_MINUTO=10
+
+  - path: /opt/passolivre/docker-compose.yml
+    owner: root:root
+    permissions: "0644"
+    content: |
+      ${indent(6, compose)}
+
+  - path: /etc/systemd/system/passolivre.service
+    owner: root:root
+    permissions: "0644"
+    content: |
+      [Unit]
+      Description=Passo Livre (docker compose)
+      Requires=docker.service
+      After=docker.service network-online.target
+
+      [Service]
+      Type=oneshot
+      RemainAfterExit=yes
+      WorkingDirectory=/opt/passolivre
+      ExecStart=/usr/bin/docker compose up -d --remove-orphans
+      ExecStop=/usr/bin/docker compose stop
+
+      [Install]
+      WantedBy=multi-user.target
+
+runcmd:
+  - fallocate -l 1G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+  - echo '/swapfile none swap sw 0 0' >> /etc/fstab
+  - systemctl enable --now docker
+  - systemctl daemon-reload
+  - systemctl enable passolivre.service
+  - systemctl start passolivre.service || true

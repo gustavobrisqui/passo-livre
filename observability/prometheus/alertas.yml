@@ -1,0 +1,47 @@
+# Alertas baseados nas 4 golden signals (latência, tráfego, erros, saturação) + disponibilidade.
+groups:
+  - name: passo-livre
+    rules:
+      - alert: MVPIndisponivel
+        expr: up{job=~"web|api|web-local|api-local"} == 0
+        for: 1m
+        labels:
+          severidade: critica
+        annotations:
+          resumo: "Passo Livre fora do ar ({{ $labels.alvo }} / {{ $labels.job }})"
+          descricao: "O Prometheus não consegue coletar {{ $labels.job }} em {{ $labels.alvo }} há mais de 1 minuto."
+
+      - alert: TaxaDeErros5xxAlta
+        expr: |
+          (
+            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="headers", code=~"5.."}[2m]))
+            /
+            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="headers"}[2m]))
+          ) > 0.05
+        for: 1m
+        labels:
+          severidade: critica
+        annotations:
+          resumo: "Mais de 5% das requisições com erro 5xx ({{ $labels.alvo }})"
+          descricao: "Taxa atual: {{ $value | humanizePercentage }}."
+
+      - alert: LatenciaP95Alta
+        expr: |
+          histogram_quantile(0.95,
+            sum by (le, alvo) (rate(caddy_http_request_duration_seconds_bucket{handler="headers"}[5m]))
+          ) > 1
+        for: 5m
+        labels:
+          severidade: aviso
+        annotations:
+          resumo: "Latência p95 acima de 1s ({{ $labels.alvo }})"
+          descricao: "p95 atual: {{ $value | humanizeDuration }}."
+
+      - alert: SaturacaoMemoriaAPI
+        expr: process_resident_memory_bytes{job=~"api|api-local"} > 200 * 1024 * 1024
+        for: 5m
+        labels:
+          severidade: aviso
+        annotations:
+          resumo: "API usando mais de 200 MB de memória ({{ $labels.alvo }})"
+          descricao: "O limite do container é 256 MB; avaliar right-sizing da VM."

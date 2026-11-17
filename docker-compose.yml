@@ -1,0 +1,60 @@
+# Passo Livre — stack do MVP. O MESMO arquivo roda local e na VM da Azure; só o .env muda.
+#   local:    docker compose up --build   →  http://localhost:8080
+#   produção: IMAGE_TAG=<sha> docker compose pull && docker compose up -d  (feito pelo pipeline)
+name: passolivre
+
+x-endurecimento: &endurecimento
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options: { max-size: "10m", max-file: "3" }
+
+services:
+  web:
+    <<: *endurecimento
+    image: ghcr.io/gustavobrisqui/passo-livre-web:${IMAGE_TAG:-local}
+    build:
+      context: .
+      args: { APP_VERSION: "${IMAGE_TAG:-local}" }
+    ports:
+      - "${HTTP_PORT:-8080}:8080"
+      - "${HTTPS_PORT:-8443}:8443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:8080}
+      METRICS_USER: ${METRICS_USER:-prometheus}
+      METRICS_HASH: ${METRICS_HASH:?defina METRICS_HASH no .env (rode scripts/gerar-env.sh)}
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    tmpfs: [/tmp]
+    depends_on:
+      api: { condition: service_healthy }
+    mem_limit: 128m
+    cpus: 0.5
+
+  api:
+    <<: *endurecimento
+    image: ghcr.io/gustavobrisqui/passo-livre-api:${IMAGE_TAG:-local}
+    build:
+      context: ./api
+      args: { APP_VERSION: "${IMAGE_TAG:-local}" }
+    environment:
+      APP_VERSION: ${IMAGE_TAG:-local}
+      RPA_TOKEN: ${RPA_TOKEN:?defina RPA_TOKEN no .env}
+      ROBO_TOKEN: ${ROBO_TOKEN:?defina ROBO_TOKEN no .env}
+      SEED_DEMO: ${SEED_DEMO:-true}
+      RATE_LIMIT_POR_MINUTO: ${RATE_LIMIT_POR_MINUTO:-10}
+    volumes:
+      - api-data:/data
+    tmpfs: [/tmp]
+    expose: ["8000"]   # só na rede interna do Docker; nunca publicada no host
+    mem_limit: 256m
+    cpus: 0.75
+
+volumes:
+  api-data:
+  caddy-data:
+  caddy-config:

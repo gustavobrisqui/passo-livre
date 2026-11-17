@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Como funciona — Passo Livre</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♿</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="/"><span aria-hidden="true">♿</span> Passo Livre</a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="/">Mapa</a></li>
+          <li><a href="/relatar.html">Relatar obstáculo</a></li>
+          <li><a href="/distritos.html">Distritos</a></li>
+          <li><a href="/como-funciona.html">Como funciona</a></li>
+          <li><a href="/privacidade.html">Privacidade</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <h1>Como o Passo Livre funciona</h1>
+    <p class="sub">
+      Um produto, sete componentes. O cidadão relata o obstáculo; dados, inteligência artificial e automação
+      ajudam a priorizar e acompanhar até a solução.
+    </p>
+
+    <ol class="cartao">
+      <li><strong>Você relata</strong> o obstáculo pelo celular (ou um robô detecta durante a vistoria).</li>
+      <li><strong>Um robô de automação (RPA)</strong> lê os relatos novos, descarta duplicados, define a prioridade e abre o chamado.</li>
+      <li><strong>O status aparece no mapa</strong> para todo mundo acompanhar: novo → em análise → encaminhado → resolvido.</li>
+      <li><strong>Os dados viram indicadores</strong> por distrito, para a prefeitura decidir onde agir primeiro.</li>
+    </ol>
+
+    <h2>Os componentes</h2>
+    <div class="grade">
+      <section class="cartao" aria-labelledby="c-app">
+        <h2 id="c-app">🗺️ Aplicação e produção</h2>
+        <p>Mapa, relatos e API publicados na nuvem (Azure) com pipeline DevSecOps, HTTPS e monitoramento.</p>
+        <p><span class="selo resolvido">No ar neste site</span></p>
+      </section>
+      <section class="cartao" aria-labelledby="c-rpa">
+        <h2 id="c-rpa">🤖 Automação (RPA)</h2>
+        <p>Bot que prioriza, deduplica e registra o protocolo do chamado, atualizando o status pela API.</p>
+        <p><span class="selo encaminhado">Integrado via API</span></p>
+      </section>
+      <section class="cartao" aria-labelledby="c-dados">
+        <h2 id="c-dados">📊 Dados (Big Data)</h2>
+        <p>Pipeline Airflow + Databricks (Bronze, Prata, Ouro) com dados abertos de SP. A camada Ouro alimenta a tela de distritos.</p>
+        <p><a href="/distritos.html">Ver indicadores por distrito</a></p>
+      </section>
+      <section class="cartao" aria-labelledby="c-visao">
+        <h2 id="c-visao">📷 Visão computacional</h2>
+        <p>Modelo treinado para reconhecer buraco, carro na calçada, entulho e degrau sem rampa em fotos.</p>
+        <p class="meta">Componente desenvolvido por outro integrante da equipe; demonstração no vídeo da disciplina.</p>
+      </section>
+      <section class="cartao" aria-labelledby="c-genai">
+        <h2 id="c-genai">💬 Assistente de direitos (IA generativa)</h2>
+        <p>Assistente local que responde sobre Lei Brasileira de Inclusão e acessibilidade citando a fonte, e diz “não consta” quando não sabe.</p>
+        <p class="meta">Componente desenvolvido por outro integrante da equipe; demonstração no vídeo da disciplina.</p>
+      </section>
+      <section class="cartao" aria-labelledby="c-maker">
+        <h2 id="c-maker">🦾 Robô de vistoria (Maker Lab)</h2>
+        <p>Robô com sensor ultrassônico que percorre passagens acessíveis e envia o obstáculo detectado para o mapa.</p>
+        <p class="meta">Relatos do robô aparecem no mapa com o selo “🤖 robô”.</p>
+      </section>
+      <section class="cartao" aria-labelledby="c-negocio">
+        <h2 id="c-negocio">💼 Negócio</h2>
+        <p>Gratuito para o cidadão. Prefeituras, subprefeituras, shoppings e operadoras de transporte pagam pelo painel de gestão e pelos relatórios.</p>
+      </section>
+    </div>
+
+    <h2>Para desenvolvedores</h2>
+    <p>A API é aberta e documentada: <a href="/api/docs">/api/docs</a> (OpenAPI).</p>
+  </main>
+
+  <footer class="rodape">Passo Livre · Global Solution FIAP 2026 · Engenharia de Software</footer>
+  <script src="/js/common.js"></script>
+</body>
+</html>

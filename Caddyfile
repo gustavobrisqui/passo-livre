@@ -1,0 +1,90 @@
+# Passo Livre — Caddy: arquivos estáticos + proxy da API + HTTPS automático + métricas Prometheus.
+# Local:    SITE_ADDRESS=:8080  (HTTP em http://localhost:8080)
+# Produção: SITE_ADDRESS=passolivre-gs.eastus2.cloudapp.azure.com (certificado Let's Encrypt automático)
+{
+	# Portas altas: o container roda como usuário não-root, sem capabilities.
+	http_port 8080
+	https_port 8443
+	admin off
+	metrics {
+		per_host
+	}
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+(seguranca) {
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "geolocation=(self), camera=(), microphone=(), payment=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		-Server
+		-Via
+	}
+}
+
+# Verificação de saúde interna do container (não exposta fora dele).
+http://127.0.0.1:8081 {
+	respond /healthz "ok" 200
+}
+
+{$SITE_ADDRESS::8080} {
+	import seguranca
+	encode zstd gzip
+
+	# Log de acesso SEM IP, sem cabeçalhos e sem user-agent (LGPD).
+	log {
+		output stdout
+		format filter {
+			wrap json
+			request>remote_ip delete
+			request>remote_port delete
+			request>client_ip delete
+			request>headers delete
+			request>tls delete
+			resp_headers delete
+		}
+	}
+
+	# Métricas protegidas por senha (o Prometheus usa basic auth).
+	handle /metrics/* {
+		basic_auth {
+			{$METRICS_USER:prometheus} {$METRICS_HASH}
+		}
+		handle /metrics/caddy {
+			metrics
+		}
+		handle /metrics/api {
+			rewrite * /metrics
+			reverse_proxy api:8000
+		}
+		respond 404
+	}
+
+	# Swagger UI precisa de CDN e script inline: CSP específica só para a documentação.
+	@docs path /api/docs
+	header @docs Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://fastapi.tiangolo.com; frame-ancestors 'none'"
+
+	@api path /api/* /healthz /version
+	handle @api {
+		reverse_proxy api:8000
+	}
+
+	handle {
+		header Content-Security-Policy "default-src 'self'; img-src 'self' data: https://tile.openstreetmap.org; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'"
+		header /css/* Cache-Control "public, max-age=3600"
+		header /js/* Cache-Control "public, max-age=300"
+		header /vendor/* Cache-Control "public, max-age=86400"
+		root * /srv
+		try_files {path} {path}.html
+		file_server
+	}
+
+	handle_errors {
+		respond "{err.status_code} {err.status_text}"
+	}
+}

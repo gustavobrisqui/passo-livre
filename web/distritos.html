@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Distritos — Passo Livre</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♿</text></svg>">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+  <header class="topo">
+    <div class="conteudo">
+      <a class="marca" href="/"><span aria-hidden="true">♿</span> Passo Livre</a>
+      <nav aria-label="Principal">
+        <ul>
+          <li><a href="/">Mapa</a></li>
+          <li><a href="/relatar.html">Relatar obstáculo</a></li>
+          <li><a href="/distritos.html">Distritos</a></li>
+          <li><a href="/como-funciona.html">Como funciona</a></li>
+          <li><a href="/privacidade.html">Privacidade</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <h1>Acessibilidade por distrito</h1>
+    <p class="sub">Onde estão os obstáculos e quanto tempo levam para ser resolvidos. Dados agregados da camada Ouro do nosso pipeline de dados.</p>
+    <div id="avisos" aria-live="polite"></div>
+    <p class="meta" id="fonte"></p>
+
+    <label for="ordenar">Ordenar por</label>
+    <select id="ordenar" class="espaco-abaixo">
+      <option value="total_ocorrencias">Mais ocorrências</option>
+      <option value="pendentes">Mais ocorrências pendentes</option>
+      <option value="tempo_medio_resolucao_dias">Maior tempo de resolução</option>
+      <option value="pontos_onibus_afetados">Mais pontos de ônibus afetados</option>
+    </select>
+
+    <div class="tabela-rolagem">
+      <table>
+        <caption id="legenda">Ocorrências por distrito</caption>
+        <thead>
+          <tr>
+            <th scope="col">Distrito</th>
+            <th scope="col">Ocorrências</th>
+            <th scope="col"><span class="sr">Proporção</span></th>
+            <th scope="col">Resolvidas</th>
+            <th scope="col">Tempo médio (dias)</th>
+            <th scope="col">Pontos de ônibus afetados</th>
+            <th scope="col">Problema mais comum</th>
+          </tr>
+        </thead>
+        <tbody id="corpo"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="rodape">Passo Livre · Indicadores agregados, sem nenhum dado pessoal.</footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/distritos.js"></script>
+</body>
+</html>
