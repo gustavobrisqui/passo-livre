@@ -32,8 +32,21 @@ def test_healthz_e_versao(cliente):
 
 def test_seed_popula_banco_vazio(cliente):
     relatos = cliente.get("/api/relatos").json()
-    assert len(relatos) == 20
+    assert len(relatos) == 23
     assert all(r["simulado"] for r in relatos)
+    assert sum(r["origem"] == "robo" for r in relatos) == 3
+
+
+def test_filtro_por_origem(cliente):
+    robo = cliente.get("/api/relatos", params={"origem": "robo"}).json()
+    assert len(robo) == 3 and all(r["origem"] == "robo" for r in robo)
+    assert cliente.get("/api/relatos", params={"origem": "x"}).status_code == 422
+
+
+def test_exemplos_do_robo_nao_duplicam(cliente):
+    from app import seed
+
+    assert seed.garantir_exemplos_robo() == 0
 
 
 def test_criar_e_listar_relato(cliente):
@@ -89,7 +102,7 @@ def test_confirmar_relato(cliente):
 
 def test_estatisticas(cliente):
     e = cliente.get("/api/estatisticas").json()
-    assert e["total"] == 20
+    assert e["total"] == 23
     assert 0 <= e["percentual_resolvidos"] <= 100
 
 

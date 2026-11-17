@@ -1,0 +1,8 @@
+{
+  "_instrucoes": "Preencha com os links REAIS de cada colega (repositório e vídeo). Campos vazios não aparecem no site.",
+  "rpa":   { "repositorio": "", "video": "" },
+  "dados": { "repositorio": "", "video": "" },
+  "visao": { "repositorio": "", "video": "" },
+  "genai": { "repositorio": "", "video": "" },
+  "maker": { "repositorio": "", "video": "" }
+}

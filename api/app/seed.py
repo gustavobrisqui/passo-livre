@@ -33,6 +33,39 @@ RELATOS_SIMULADOS = [
 ]
 
 
+# Exemplos do robô de vistoria (Maker Lab), também SIMULADOS: mostram como os relatos enviados
+# pelo robô (POST /api/relatos com origem=robo) aparecem no mapa, com o selo "🤖 robô".
+# (tipo, descrição, lat, lon, status, dias atrás)
+RELATOS_ROBO_SIMULADOS = [
+    ("entulho", "Obstáculo a 18 cm detectado pelo sensor ultrassônico na faixa livre da calçada", -23.55780, -46.63950, "novo", 1),
+    ("calcada_estreita", "Passagem com 70 cm de largura medida pelo robô de vistoria", -23.56490, -46.65280, "novo", 2),
+    ("degrau_sem_rampa", "Desnível de 12 cm detectado no acesso à travessia", -23.54210, -46.63480, "em_analise", 3),
+]
+
+
+def garantir_exemplos_robo() -> int:
+    """Insere os exemplos simulados do robô se ainda não houver nenhum (também em bancos já populados)."""
+    with conexao() as con:
+        existe = con.execute(
+            "SELECT COUNT(*) FROM relatos WHERE origem = 'robo' AND simulado = 1"
+        ).fetchone()[0]
+        if existe:
+            return 0
+        base = datetime.now(timezone.utc).replace(microsecond=0)
+        for tipo, desc, lat, lon, status, dias in RELATOS_ROBO_SIMULADOS:
+            criado = (base - timedelta(days=dias)).isoformat()
+            cur = con.execute(
+                "INSERT INTO relatos (tipo, descricao, lat, lon, status, origem, simulado, criado_em, atualizado_em)"
+                " VALUES (?, ?, ?, ?, ?, 'robo', 1, ?, ?)",
+                (tipo, desc, lat, lon, status, criado, criado),
+            )
+            con.execute(
+                "INSERT INTO historico (relato_id, status, nota, autor, em) VALUES (?, 'novo', ?, 'robo', ?)",
+                (cur.lastrowid, "Detectado pelo robô de vistoria (dado simulado)", criado),
+            )
+        return len(RELATOS_ROBO_SIMULADOS)
+
+
 def popular_se_vazio() -> int:
     """Insere os relatos simulados apenas se o banco estiver vazio. Retorna quantos inseriu."""
     with conexao() as con:

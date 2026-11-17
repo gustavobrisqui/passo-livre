@@ -199,7 +199,7 @@ def exigir_token_rpa(authorization: str = Header(default="")) -> str:
 async def ciclo_de_vida(_: FastAPI):
     db.inicializar()
     if SEED_DEMO:
-        inseridos = seed.popular_se_vazio()
+        inseridos = seed.popular_se_vazio() + seed.garantir_exemplos_robo()
         if inseridos:
             log.info("seed: %s relatos simulados inseridos", inseridos)
     log.info("api iniciada versao=%s", APP_VERSION)
@@ -260,6 +260,7 @@ def listar_tipos():
 def listar_relatos(
     status: Optional[Status] = None,
     tipo: Optional[Tipo] = None,
+    origem: Optional[Origem] = None,
     desde: Optional[datetime] = Query(default=None, description="ISO 8601; relatos atualizados a partir de"),
     limite: int = Query(default=500, ge=1, le=1000),
 ):
@@ -271,6 +272,9 @@ def listar_relatos(
     if tipo:
         sql += " AND tipo = ?"
         params.append(tipo.value)
+    if origem:
+        sql += " AND origem = ?"
+        params.append(origem.value)
     if desde:
         if desde.tzinfo is None:
             desde = desde.replace(tzinfo=timezone.utc)

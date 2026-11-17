@@ -106,6 +106,14 @@
   filtros.addEventListener("change", carregar);
   filtros.addEventListener("submit", (e) => { e.preventDefault(); carregar(); });
 
+  // Filtros vindos do endereço (ex.: /?origem=robo)
+  const daUrl = new URLSearchParams(location.search);
+  ["status", "origem"].forEach((campo) => {
+    const valor = daUrl.get(campo);
+    const sel = filtros.elements[campo];
+    if (valor && sel && [...sel.options].some((o) => o.value === valor)) sel.value = valor;
+  });
+
   api("/version").then((v) => { document.getElementById("versao").textContent = v.versao; }).catch(() => {});
   carregarTipos().catch(() => {});
   carregar();
