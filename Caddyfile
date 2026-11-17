@@ -6,6 +6,13 @@
 	http_port 8080
 	https_port 8443
 	admin off
+	# O logger padrão registraria requisições de hosts desconhecidos (bots) COM IP.
+	# Excluímos os logs de acesso dele: o único log de acesso é o do site, filtrado abaixo (LGPD).
+	log default {
+		output stdout
+		format json
+		exclude http.log.access
+	}
 	metrics {
 		per_host
 	}
