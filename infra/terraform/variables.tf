@@ -57,6 +57,15 @@ variable "github_repo" {
   default     = "gustavobrisqui/passo-livre"
 }
 
+variable "github_oidc_subject_repo" {
+  description = <<-EOT
+    Prefixo do "subject" do token OIDC do GitHub. Repositórios novos usam o formato com IDs imutáveis:
+    repo:<owner>@<owner_id>/<repo>@<repo_id>  (consulte: gh api repos/<owner>/<repo> --jq '.owner.id, .id')
+  EOT
+  type        = string
+  default     = "repo:gustavobrisqui@127115089/passo-livre@1460691146"
+}
+
 variable "image_tag" {
   description = "Tag inicial das imagens no GHCR (o pipeline atualiza a cada deploy)."
   type        = string

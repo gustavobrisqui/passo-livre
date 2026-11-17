@@ -16,7 +16,7 @@ resource "azuread_application_federated_identity_credential" "main" {
   description    = "Push na branch main de ${var.github_repo}"
   audiences      = ["api://AzureADTokenExchange"]
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:${var.github_repo}:ref:refs/heads/main"
+  subject        = "${var.github_oidc_subject_repo}:ref:refs/heads/main"
 }
 
 resource "azuread_application_federated_identity_credential" "producao" {
@@ -25,7 +25,7 @@ resource "azuread_application_federated_identity_credential" "producao" {
   description    = "Jobs no environment production de ${var.github_repo}"
   audiences      = ["api://AzureADTokenExchange"]
   issuer         = "https://token.actions.githubusercontent.com"
-  subject        = "repo:${var.github_repo}:environment:production"
+  subject        = "${var.github_oidc_subject_repo}:environment:production"
 }
 
 # "Virtual Machine Contributor" no escopo da VM: permite run-command (deploy) e nada fora dela.
