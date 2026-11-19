@@ -6,7 +6,7 @@
 | **MVP (URL pública)** | https://passolivre-gs.eastus2.cloudapp.azure.com |
 | **Repositório** | https://github.com/gustavobrisqui/passo-livre |
 | **Pipeline** | https://github.com/gustavobrisqui/passo-livre/actions |
-| **Integrantes** | _nome completo — RM (preencher)_ |
+| **Integrantes** | Gustavo Brisqui Martinez (RM97969) · Matheus Brisqui Martinez (RM97892) · Guilherme Rezende Bezerra (RM98508) |
 
 ---
 

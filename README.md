@@ -28,7 +28,9 @@
 
 | Nome completo | RM |
 |---|---|
-| _a preencher_ | _a preencher_ |
+| Gustavo Brisqui Martinez | RM97969 |
+| Matheus Brisqui Martinez | RM97892 |
+| Guilherme Rezende Bezerra | RM98508 |
 
 ---
 
