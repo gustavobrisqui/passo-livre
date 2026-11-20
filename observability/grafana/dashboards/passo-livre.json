@@ -161,7 +161,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\"}[5m]))"
+     "expr": "sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m]))"
     }
    ]
   },
@@ -223,7 +223,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\",code=~\"5..\"}[5m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\"}[5m]))"
+     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\",code=~\"5..\"}[5m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m]))"
     }
    ]
   },
@@ -285,7 +285,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"headers\",alvo=\"$alvo\"}[5m])))"
+     "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m])))"
     }
    ]
   },
@@ -459,7 +459,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "sum by (code) (rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\"}[1m]))",
+     "expr": "sum by (code) (rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[1m]))",
      "legendFormat": "HTTP {{code}}"
     }
    ]
@@ -505,7 +505,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\",code=~\"5..\"}[1m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\"}[1m]))",
+     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\",code=~\"5..\"}[1m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[1m]))",
      "legendFormat": "5xx"
     },
     {
@@ -514,7 +514,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\",code=~\"4..\"}[1m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"headers\",alvo=\"$alvo\"}[1m]))",
+     "expr": "(sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\",code=~\"4..\"}[1m])) or vector(0)) / sum(rate(caddy_http_request_duration_seconds_count{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[1m]))",
      "legendFormat": "4xx"
     }
    ]
@@ -560,7 +560,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "histogram_quantile(0.50, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"headers\",alvo=\"$alvo\"}[5m])))",
+     "expr": "histogram_quantile(0.50, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m])))",
      "legendFormat": "p50 site"
     },
     {
@@ -569,7 +569,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"headers\",alvo=\"$alvo\"}[5m])))",
+     "expr": "histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m])))",
      "legendFormat": "p95 site"
     },
     {
@@ -578,7 +578,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"headers\",alvo=\"$alvo\"}[5m])))",
+     "expr": "histogram_quantile(0.99, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"}[5m])))",
      "legendFormat": "p99 site"
     },
     {
@@ -633,7 +633,7 @@
       "type": "prometheus",
       "uid": "prometheus"
      },
-     "expr": "sum(caddy_http_requests_in_flight{handler=\"headers\",alvo=\"$alvo\"})",
+     "expr": "sum(caddy_http_requests_in_flight{handler=\"subroute\",server!=\"srv0\",alvo=\"$alvo\"})",
      "legendFormat": "em andamento (site)"
     },
     {

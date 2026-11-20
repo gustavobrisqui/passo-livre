@@ -14,9 +14,9 @@ groups:
       - alert: TaxaDeErros5xxAlta
         expr: |
           (
-            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="headers", code=~"5.."}[2m]))
+            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="subroute", server!="srv0", code=~"5.."}[2m]))
             /
-            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="headers"}[2m]))
+            sum by (alvo) (rate(caddy_http_request_duration_seconds_count{handler="subroute", server!="srv0"}[2m]))
           ) > 0.05
         for: 1m
         labels:
@@ -28,7 +28,7 @@ groups:
       - alert: LatenciaP95Alta
         expr: |
           histogram_quantile(0.95,
-            sum by (le, alvo) (rate(caddy_http_request_duration_seconds_bucket{handler="headers"}[5m]))
+            sum by (le, alvo) (rate(caddy_http_request_duration_seconds_bucket{handler="subroute", server!="srv0"}[5m]))
           ) > 1
         for: 5m
         labels:

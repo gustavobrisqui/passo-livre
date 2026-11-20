@@ -16,8 +16,8 @@ Grafana ──> dashboard "Passo Livre — Golden Signals" (variável Ambiente: 
 
 | Sinal | Métrica (PromQL) | Painel | Alerta |
 |---|---|---|---|
-| **Latência** | `histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler="headers"}[5m])))` + p95 da API (`passolivre_http_request_duration_seconds`) | 3. Latência p50/p95/p99 | `LatenciaP95Alta` (> 1 s por 5 min) |
-| **Tráfego** | `sum by (code) (rate(caddy_http_request_duration_seconds_count{handler="headers"}[1m]))` | 1. Tráfego por código | — |
+| **Latência** | `histogram_quantile(0.95, sum by (le) (rate(caddy_http_request_duration_seconds_bucket{handler="subroute",server!="srv0"}[5m])))` + p95 da API (`passolivre_http_request_duration_seconds`) | 3. Latência p50/p95/p99 | `LatenciaP95Alta` (> 1 s por 5 min) |
+| **Tráfego** | `sum by (code) (rate(caddy_http_request_duration_seconds_count{handler="subroute",server!="srv0"}[1m]))` | 1. Tráfego por código | — |
 | **Erros** | razão de respostas `5xx` (e `4xx`) sobre o total | 2. Erros % | `TaxaDeErros5xxAlta` (> 5% por 1 min) |
 | **Saturação** | `caddy_http_requests_in_flight`, `rate(process_cpu_seconds_total[1m])`, `process_resident_memory_bytes / 256 MB` | 4. Saturação | `SaturacaoMemoriaAPI` (> 200 MB por 5 min) |
 | Disponibilidade | `up` | Alvos coletados | `MVPIndisponivel` (`up == 0` por 1 min) |
